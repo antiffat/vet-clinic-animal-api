@@ -17,9 +17,28 @@ public class AnimalController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<List<Animal>> GetAll()
+    public ActionResult<List<Animal>> GetAll(string? category, double? weight, string? furColor)
     {
-        return _animalRepository.GetAll();
+        var animals = _animalRepository.GetAll();
+
+        if (!string.IsNullOrEmpty(category))
+        {
+            animals = animals.Where(a => a.Category?.Equals(category, StringComparison.OrdinalIgnoreCase) ?? false)
+                .ToList();
+        }
+
+        if (weight.HasValue)
+        {
+            animals = animals.Where(a => a.Weight == weight.Value).ToList();
+        }
+
+        if (!string.IsNullOrEmpty(furColor))
+        {
+            animals = animals.Where(a => a.FurColor?.Equals(furColor, StringComparison.OrdinalIgnoreCase) ?? false)
+                .ToList();
+        }
+
+        return animals;
     }
 
     [HttpGet("{id}")]
