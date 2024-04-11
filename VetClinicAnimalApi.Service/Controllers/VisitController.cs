@@ -5,6 +5,8 @@ using VetClinicAnimalApi.Service.Repositories;
 
 namespace VetClinicAnimalApi.Service.Controllers;
 
+[ApiController]
+[Route("[controller]")]
 public class VisitController : ControllerBase
 {
     private readonly IVisitRepository _visitRepository;
